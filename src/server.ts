@@ -13,13 +13,21 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL, // Allow requests from frontend URL
-    'http://localhost:3001', // Allow localhost
-    'https://44tagtalks.vercel.app', // Allow vercel
-  ],
-  credentials: true // Allow credentials
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      'http://localhost:3001',
+      'https://44tagtalks.vercel.app'
+    ];
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 
 // Redirect root to Admin panel
 app.get('/', (_, res) => {
