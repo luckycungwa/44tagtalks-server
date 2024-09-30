@@ -13,20 +13,16 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      'http://localhost:3001',
-      'https://44tagtalks.vercel.app'
-    ];
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: [
+    'http://localhost:3001',  // Allow localhost during development
+    'https://44tagtalks.vercel.app',  // Allow the deployed frontend
+    'https://44tagtalks-server.vercel.app'  // Allow the deployed server
+  ],
+  credentials: true,  // Allow credentials (e.g., cookies)
+  methods: ['GET', 'POST', 'PUT',],  // Allow specific methods
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow specific headers
 }));
+
 
 
 // Redirect root to Admin panel
