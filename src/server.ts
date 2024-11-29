@@ -14,14 +14,15 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: [
-    'http://localhost:3001',  // Allow localhost during development
-    'https://44tagtalks.vercel.app',  // Allow the deployed frontend
-    'https://44tagtalks-server.vercel.app'  // Allow the deployed server
+    'http://localhost:3001', // For local testing
+    'https://44tagtalks.vercel.app', // Deployed frontend
+    'https://44tagtalks-server.vercel.app', // Deployed backend
   ],
-  credentials: true,  // Allow credentials (e.g., cookies)
-  methods: ['GET', 'POST', 'PUT',],  // Allow specific methods
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Allow specific headers
+  credentials: true, // Allow cookies
+  methods: ['GET', 'POST', 'PUT'], // HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Custom headers
 }));
+
 
 
 
