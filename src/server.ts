@@ -36,6 +36,7 @@ app.use('/api/auth', authRoute); // Keep if you want registration
 app.use("/api/users", userRoutes); // You may remove this if not needed
 app.use('/uploads', express.static('uploads')); // Serve uploaded files
 app.use('/api/posts', contentRoutes);
+app.use('/api/', contentRoutes);
 
 const start = async () => {
   // Initialize Payload
