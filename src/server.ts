@@ -16,7 +16,7 @@ app.use(cors({
   origin: [
     'http://localhost:3001', // For local testing
     'https://44tagtalks.vercel.app', // Deployed frontend
-    'https://44tagtalks-server.vercel.app', // Deployed backend
+    'https://four4tagtalks-server.onrender.com', // Deployed backend
   ],
   credentials: true, // Allow cookies
   methods: ['GET', 'POST', 'PUT'], // HTTP methods
@@ -51,7 +51,7 @@ const start = async () => {
   // Start the server
   app.listen(3000, () => {
     // console.log('Server is running on http://localhost:3000');
-    console.log('Server is running on https://44tagtalks-server.vercel.app/');
+    console.log('Server is running on https://four4tagtalks-server.onrender.com/');
   });
 };
 

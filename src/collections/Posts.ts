@@ -10,6 +10,12 @@ const Posts: CollectionConfig = {
   },
   access: {
     read: () => true, // Allow all users to read posts
+    update: ({ req: { user } }) => Boolean(user), // Only logged-in users can edit
+    // create: ({ req: { user } }) => {
+    //   if (user && user.role === 'admin') return true;
+    //   return { id: { equals: user.id } };
+    // },
+
   },
   fields: [
     {
