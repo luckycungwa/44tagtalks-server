@@ -23,9 +23,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'], // Custom headers
 }));
 
-
-
-
 // Redirect root to Admin panel
 app.get('/', (_, res) => {
   res.redirect('/admin');

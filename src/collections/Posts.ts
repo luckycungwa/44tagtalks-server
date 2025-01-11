@@ -10,11 +10,23 @@ const Posts: CollectionConfig = {
   },
   access: {
     read: () => true, // Allow all users to read posts
-    update: ({ req: { user } }) => Boolean(user), // Only logged-in users can edit
-    // create: ({ req: { user } }) => {
-    //   if (user && user.role === 'admin') return true;
-    //   return { id: { equals: user.id } };
-    // },
+    // update: ({ req: { user } }) => Boolean(user), // Only logged-in users can edit
+    // admin previledges
+    update: ({ req: { user } }) => {
+      // Allow admins full access and users to edit their own posts
+      if (user?.role === 'admin') return true;
+      return false; // Restrict other users
+    },
+    create: ({ req: { user } }) => {
+      // Allow admins to create posts
+      if (user?.role === 'admin') return true;
+      return false;
+    },
+    delete: ({ req: { user } }) => {
+      // Allow admins to delete posts
+      if (user?.role === 'admin') return true;
+      return false;
+    }
 
   },
   fields: [
