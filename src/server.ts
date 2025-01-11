@@ -21,7 +21,9 @@ app.use(cors({
   credentials: true, // Allow cookies
   methods: ['GET', 'POST', 'PUT'], // HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Custom headers
-}));
+}
+
+));
 
 // Redirect root to Admin panel
 app.get('/', (_, res) => {

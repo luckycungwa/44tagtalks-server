@@ -8,26 +8,24 @@ const Posts: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
   },
+  // Admin priveleges
   access: {
-    read: () => true, // Allow all users to read posts
-    // update: ({ req: { user } }) => Boolean(user), // Only logged-in users can edit
-    // admin previledges
-    update: ({ req: { user } }) => {
-      // Allow admins full access and users to edit their own posts
-      if (user?.role === 'admin') return true;
-      return false; // Restrict other users
-    },
-    create: ({ req: { user } }) => {
-      // Allow admins to create posts
-      if (user?.role === 'admin') return true;
+    read: () => true,
+    update: ({ req }) => {
+      if (req.user) {
+        console.log('User attempting update:', req.user);
+        return true; // Allow any authenticated user in admin panel to update
+      }
       return false;
     },
-    delete: ({ req: { user } }) => {
-      // Allow admins to delete posts
-      if (user?.role === 'admin') return true;
+    create: ({ req }) => {
+      if (req.user) return true;
+      return false;
+    },
+    delete: ({ req }) => {
+      if (req.user?.role === 'admin') return true;
       return false;
     }
-
   },
   fields: [
     {

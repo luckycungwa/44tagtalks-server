@@ -149,6 +149,38 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// Edit Post
+// Route to update a post
+// router.put('/posts/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const updateData = req.body;
+
+//   try {
+//     // Verify user has permission (you can modify this based on your needs)
+//     if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'editor')) {
+//       return res.status(403).json({ error: 'Unauthorized to update posts' });
+//     }
+
+//     // Update the post
+//     const updatedPost = await payload.update({
+//       collection: 'posts',
+//       id: id,
+//       data: {
+//         title: updateData.title,
+//         body: updateData.body,
+//         categories: updateData.categories,
+//         media: updateData.media,
+//         publishDate: updateData.publishDate,
+//         // Add any other fields you want to be updatable
+//       }
+//     });
+
+//     res.json(updatedPost);
+//   } catch (error) {
+//     console.error('Error updating post:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 
 
