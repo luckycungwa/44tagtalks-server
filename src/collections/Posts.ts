@@ -3,6 +3,9 @@ import slugify from 'slugify';
 
 const generateSlug = (title) => slugify(title, { lower: true, strict: true }).replace(/^\/+|\/+$/g, '');  //make title into slug (behind the hood )
 
+// Utility to check roles
+const isAdmin = (user) => user?.role === 'admin';
+
 const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
@@ -11,22 +14,11 @@ const Posts: CollectionConfig = {
   // Admin priveleges
   access: {
     read: () => true,
-    update: ({ req }) => {
-      if (req.user) {
-        console.log('User attempting update:', req.user);
-        return true; // Allow any authenticated user in admin panel to update
-      }
-      return false;
-    },
-    create: ({ req }) => {
-      if (req.user) return true;
-      return false;
-    },
-    delete: ({ req }) => {
-      if (req.user?.role === 'admin') return true;
-      return false;
-    }
+    update: ({ req }) => !!req.user, // Any authenticated user can update
+    create: ({ req }) => !!req.user, // Any authenticated user can create
+    delete: ({ req }) => isAdmin(req.user), // Only admins can delete
   },
+  
   fields: [
     {
       name: 'title',
@@ -67,11 +59,11 @@ const Posts: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    {
-      name: 'likes',
-      type: 'number',
-      defaultValue: 0,
-    },
+    // {
+    //   name: 'likes',
+    //   type: 'number',
+    //   defaultValue: 0,
+    // },
   ],
   hooks: {
     beforeChange: [
