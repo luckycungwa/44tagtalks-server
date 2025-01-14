@@ -1,22 +1,20 @@
 import { CollectionConfig } from 'payload/types';
 import slugify from 'slugify';
 
-const generateSlug = (title) => slugify(title, { lower: true, strict: true }).replace(/^\/+|\/+$/g, '');  //make title into slug (behind the hood )
+const generateSlug = (title) => slugify(title, { lower: true, strict: true }).replace(/^\/+|\/+$/g, '');
 
-// Utility to check roles
-const isAdmin = (user) => user?.role === 'admin';
+const isAdminOrEditor = (user) => user?.role === 'admin' || user?.role === 'editor';
 
 const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'title',
   },
-  // Admin priveleges
   access: {
-    read: () => true,
-    update: ({ req }) => !!req.user, // Any authenticated user can update
-    create: ({ req }) => !!req.user, // Any authenticated user can create
-    delete: ({ req }) => isAdmin(req.user), // Only admins can delete
+    read: () => true, // Allow everyone to read
+    update: ({ req }) => isAdminOrEditor(req.user), // Only admins and editors can update
+    create: ({ req }) => isAdminOrEditor(req.user), // Only admins and editors can create
+    delete: ({ req }) => req.user?.role === 'admin', // Only admins can delete
   },
   
   fields: [
@@ -59,17 +57,12 @@ const Posts: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    // {
-    //   name: 'likes',
-    //   type: 'number',
-    //   defaultValue: 0,
-    // },
   ],
   hooks: {
     beforeChange: [
       ({ data, originalDoc }) => {
         if (data.title && (!data.slug || data.slug === originalDoc.slug)) {
-          data.slug = generateSlug(data.title); // Removed slashes to avoid mismatch
+          data.slug = generateSlug(data.title);
         }
       },
     ],
