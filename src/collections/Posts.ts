@@ -12,7 +12,11 @@ const Posts: CollectionConfig = {
   },
   access: {
     read: () => true, // Allow everyone to read
-    update: ({ req }) => isAdminOrEditor(req.user), // Only admins and editors can update
+    update: ({ req: { user } }) => Boolean(user), // Only logged-in users can edit
+    // create: ({ req: { user } }) => {
+    //   if (user && user.role === 'admin') return true;
+    //   return { id: { equals: user.id } };
+    // }, // Only admins and editors can update
     create: ({ req }) => isAdminOrEditor(req.user), // Only admins and editors can create
     delete: ({ req }) => req.user?.role === 'admin', // Only admins can delete
   },
